@@ -1,34 +1,18 @@
-const sample = [
-    {
-      sensor: 'Temperature',
-      value: 78.9,
-      color: '#000000'
-    },
-    {
-      sensor: 'Humitity',
-      value: 75.1,
-      color: '#00a2ee'
-    },
-    {
-      sensor: 'Light Intensity',
-      value: 68.0,
-      color: '#fbcb39'
-    }
-  ];
-
+function init(newdata) {
   const svg = d3.select('svg');
+  svg.selectAll('g').remove();
   const svgContainer = d3.select('#container');
   
   const margin = 80;
   const width = 1000 - 2 * margin;
-  const height = 600 - 2 * margin;
+  const height = 500 - 2 * margin;
 
   const chart = svg.append('g')
     .attr('transform', `translate(${margin}, ${margin})`);
 
   const xScale = d3.scaleBand()
     .range([0, width])
-    .domain(sample.map((s) => s.sensor))
+    .domain(newdata.map((s) => s.sensor))
     .padding(0.4)
   
   const yScale = d3.scaleLinear()
@@ -39,34 +23,26 @@ const sample = [
   // const makeXLines = () => d3.axisBottom()
   //   .scale(xScale)
 
-  const makeYLines = () => d3.axisLeft()
-    .scale(yScale)
+  /* const makeYLines = () => d3.axisLeft()
+    .scale(yScale) */
 
   chart.append('g')
     .attr('transform', `translate(0, ${height})`)
     .call(d3.axisBottom(xScale));
 
-  chart.append('g')
-    .call(d3.axisLeft(yScale));
+ /*  chart.append('g')
+    .call(d3.axisLeft(yScale)); */
 
-  // vertical grid lines
-  // chart.append('g')
-  //   .attr('class', 'grid')
-  //   .attr('transform', `translate(0, ${height})`)
-  //   .call(makeXLines()
-  //     .tickSize(-height, 0, 0)
-  //     .tickFormat('')
-  //   )
 
-  chart.append('g')
+/*   chart.append('g')
     .attr('class', 'grid')
     .call(makeYLines()
       .tickSize(-width, 0, 0)
       .tickFormat('')
-    )
+    ) */
 
   const barGroups = chart.selectAll()
-    .data(sample)
+    .data(newdata)
     .enter()
     .append('g')
 
@@ -77,6 +53,7 @@ const sample = [
     .attr('y', (g) => yScale(g.value))
     .attr('height', (g) => height - yScale(g.value))
     .attr('width', xScale.bandwidth())
+    .attr('fill', (g) => g.color)
     .on('mouseenter', function (actual, i) {
       d3.selectAll('.value')
         .attr('opacity', 0)
@@ -90,18 +67,18 @@ const sample = [
 
       const y = yScale(actual.value)
 
-      line = chart.append('line')
+      /* line = chart.append('line')
         .attr('id', 'limit')
         .attr('x1', 0)
         .attr('y1', y)
         .attr('x2', width)
-        .attr('y2', y)
+        .attr('y2', y) */
 
-      barGroups.append('text')
+      /* barGroups.append('text')
         .attr('class', 'divergence')
         .attr('x', (a) => xScale(a.sensor) + xScale.bandwidth() / 2)
         .attr('y', (a) => yScale(a.value) + 30)
-        .attr('fill', 'white')
+        .attr('fill', 'black')
         .attr('text-anchor', 'middle')
         .text((a, idx) => {
           const divergence = (a.value - actual.value).toFixed(1)
@@ -111,7 +88,7 @@ const sample = [
           text += `${divergence}%`
 
           return idx !== i ? text : '';
-        })
+        }) */
 
     })
     .on('mouseleave', function () {
@@ -135,18 +112,24 @@ const sample = [
     .attr('x', (a) => xScale(a.sensor) + xScale.bandwidth() / 2)
     .attr('y', (a) => yScale(a.value) + 30)
     .attr('text-anchor', 'middle')
+    .attr('fill', 'black')
     .text((a) => {
-        return `${a.value}`
+      if(a.sensor === "Temperature")  
+        return a.value + "*Celsius"
+      else if(a.sensor === "Humidity")
+        return a.value + "%";
+      else
+        return a.value + "V";
     })
   
-  svg
+ /*  svg
     .append('text')
     .attr('class', 'label')
     .attr('x', -(height / 2) - margin)
     .attr('y', margin / 2.4)
     .attr('transform', 'rotate(-90)')
     .attr('text-anchor', 'middle')
-    .text('Love meter (%)')
+    .text('Love meter (%)') */
 
   svg.append('text')
     .attr('class', 'label')
@@ -155,9 +138,41 @@ const sample = [
     .attr('text-anchor', 'middle')
     .text('Sensors')
 
-  svg.append('text')
+/*   svg.append('text')
     .attr('class', 'title')
     .attr('x', width / 2 + margin)
     .attr('y', 40)
     .attr('text-anchor', 'middle')
-    .text('IoT Sensor Data')
+    .text('IoT Sensor Data')*/
+  } 
+
+
+  function generateRandomData() {
+    var sample = [
+      {
+        sensor: 'Temperature',
+        value: random(10, 30),
+        color: '#FF6347'
+      },
+      {
+        sensor: 'Humidity',
+        value: random(40, 60),
+        color: '#00FFFF'
+      },
+      {
+        sensor: 'Light Intensity',
+        value: random(70, 100),
+        color: '#FFFF00'
+      }
+    ];
+    return sample;
+  }
+
+  function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+setInterval(function() {
+  var newdata = generateRandomData();
+  init(newdata);
+}, 1000);

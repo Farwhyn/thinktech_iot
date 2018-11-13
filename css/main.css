@@ -12,9 +12,8 @@ div#layout {
   
   div#container {
     width: 1000px;
-    height: 600px;
+    height: 500px;
     margin: auto;
-    background-color: #2F4A6D;
   }
   
   svg {
@@ -22,28 +21,16 @@ div#layout {
     height: 100%;
   }
   
-  .bar {
-    fill: #80cbc4;
-  }
+
   
   text {
     font-size: 12px;
-    fill: #fff;
   }
   
   path {
     stroke: gray;
   }
   
-  line {
-    stroke: gray;
-  }
-  
-  line#limit {
-    stroke: #FED966;
-    stroke-width: 3;
-    stroke-dasharray: 3 6;
-  }
   
   .grid path {
     stroke-width: 0;
