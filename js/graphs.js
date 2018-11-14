@@ -2,7 +2,7 @@ function init(newdata) {
   const svg = d3.select('svg');
   svg.selectAll('g').remove();
   const svgContainer = d3.select('#container');
-  
+
   const margin = 80;
   const width = 1000 - 2 * margin;
   const height = 500 - 2 * margin;
@@ -14,7 +14,7 @@ function init(newdata) {
     .range([0, width])
     .domain(newdata.map((s) => s.sensor))
     .padding(0.4)
-  
+
   const yScale = d3.scaleLinear()
     .range([height, 0])
     .domain([0, 100]);
@@ -82,7 +82,7 @@ function init(newdata) {
         .attr('text-anchor', 'middle')
         .text((a, idx) => {
           const divergence = (a.value - actual.value).toFixed(1)
-          
+
           let text = ''
           if (divergence > 0) text += '+'
           text += `${divergence}%`
@@ -106,7 +106,7 @@ function init(newdata) {
       chart.selectAll('.divergence').remove()
     })
 
-  barGroups 
+  barGroups
     .append('text')
     .attr('class', 'value')
     .attr('x', (a) => xScale(a.sensor) + xScale.bandwidth() / 2)
@@ -114,14 +114,14 @@ function init(newdata) {
     .attr('text-anchor', 'middle')
     .attr('fill', 'black')
     .text((a) => {
-      if(a.sensor === "Temperature")  
+      if(a.sensor === "Temperature")
         return a.value + "*Celsius"
       else if(a.sensor === "Humidity")
         return a.value + "%";
       else
         return a.value + "V";
     })
-  
+
  /*  svg
     .append('text')
     .attr('class', 'label')
@@ -144,33 +144,33 @@ function init(newdata) {
     .attr('y', 40)
     .attr('text-anchor', 'middle')
     .text('IoT Sensor Data')*/
-  } 
-
-
-  function generateRandomData() {
-    var sample = [
-      {
-        sensor: 'Temperature',
-        value: random(10, 30),
-        color: '#FF6347'
-      },
-      {
-        sensor: 'Humidity',
-        value: random(40, 60),
-        color: '#00FFFF'
-      },
-      {
-        sensor: 'Light Intensity',
-        value: random(70, 100),
-        color: '#FFFF00'
-      }
-    ];
-    return sample;
   }
 
-  function random(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+
+function generateRandomData() {
+  var sample = [
+    {
+      sensor: 'Temperature',
+      value: random(10, 30),
+      color: '#FF6347'
+    },
+    {
+      sensor: 'Humidity',
+      value: random(40, 60),
+      color: '#00FFFF'
+    },
+    {
+      sensor: 'Light Intensity',
+      value: random(70, 100),
+      color: '#FFFF00'
+    }
+  ];
+  return sample;
+}
+
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 setInterval(function() {
   var newdata = generateRandomData();
