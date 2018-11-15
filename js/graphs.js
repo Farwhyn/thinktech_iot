@@ -1,4 +1,36 @@
-function init(newdata) {
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyBmxV78S_W_68fp7H_qgSQFubJdjVyaOCE",
+  authDomain: "thinktech-34ceb.firebaseapp.com",
+  databaseURL: "https://thinktech-34ceb.firebaseio.com",
+  projectId: "thinktech-34ceb",
+  storageBucket: "thinktech-34ceb.appspot.com",
+  messagingSenderId: "740650395339"
+};
+firebase.initializeApp(config);
+var m_table = document.getElementById("iot");
+var iotlights = firebase.database().ref('lights');
+iotlights.on('value', function(snapshot) {
+        //console.log(snapshot.val());
+        var lightvalue = snapshot.val();
+        //console.log(lightvalue);
+        var newdata = generateRandomData(lightvalue);
+        init(newdata);
+        m_table.deleteRow(1);
+        var row = m_table.insertRow(1);
+        var problem = row.insertCell(0);
+        var solution = row.insertCell(1);
+        if(lightvalue < 30) {
+          problem.innerHTML = "Lightbulb loose";
+          solution.innerHTML = "Turn off lights and screw bulb tighter";
+        }
+        else {
+          problem.innerHTML = "Pipe leak";
+          solution.innerHTML = "Standby... Calling pipe maintainer";
+        }
+});
+
+function init(newdata, lights) {
   const svg = d3.select('svg');
   svg.selectAll('g').remove();
   const svgContainer = d3.select('#container');
@@ -147,21 +179,21 @@ function init(newdata) {
   }
 
 
-function generateRandomData() {
+function generateRandomData(light) {
   var sample = [
     {
       sensor: 'Temperature',
-      value: random(10, 30),
+      value: random(22, 25),
       color: '#FF6347'
     },
     {
       sensor: 'Humidity',
-      value: random(40, 60),
+      value: random(40, 48),
       color: '#00FFFF'
     },
     {
       sensor: 'Light Intensity',
-      value: random(70, 100),
+      value: light,
       color: '#FFFF00'
     }
   ];
@@ -172,7 +204,7 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-setInterval(function() {
+/* setInterval(function() {
   var newdata = generateRandomData();
   init(newdata);
-}, 1000);
+}, 1000); */
