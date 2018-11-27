@@ -54,7 +54,7 @@ body {
   .axis path, .axis line {
       fill: none;
       stroke: black;
-      shape-rendering: crispEdges; //The shape-rendering property is an SVG attribute, used here to make sure our axis and its tick mark lines are pixel-perfect. 
+      shape-rendering: crispEdges; 
   }
   
   .line {
