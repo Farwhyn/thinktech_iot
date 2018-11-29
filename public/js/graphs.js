@@ -10,11 +10,24 @@ var config = {
 firebase.initializeApp(config);
 var m_table = document.getElementById("iot");
 var iotlights = firebase.database().ref('lights');
+var currentTickets = firebase.database().ref('tickets');
+var submit = document.getElementById("submitTicket");
+submit.addEventListener("click", function() {
+  var message = document.getElementById("message-text").value;
+  var ticket = {
+    "problem": message,
+    "values" : saveValues
+  }
+  currentTickets.push(ticket);
+  console.log(ticket);
+});
+var saveValues;
 iotlights.on('value', function(snapshot) {
         //console.log(snapshot.val());
         var lightvalue = snapshot.val();
         //console.log(lightvalue);
         var newdata = generateRandomData(lightvalue);
+        saveValues = newdata;
         init(newdata);
         m_table.deleteRow(1);
         var row = m_table.insertRow(1);

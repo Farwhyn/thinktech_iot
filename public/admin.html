@@ -26,7 +26,7 @@
         <ul class="navbar-nav mr-auto">
 
         </ul>
-
+        <button class="btn btn-outline-success my-2 my-sm-0" id="graph-start" data-toggle="modal" data-target="#exampleModal">Problems</button>
 
       </div>
     </nav>
@@ -37,13 +37,32 @@
         <h1>Dashboard</h1>
       </div>
       <div id='layout'>
-        <svg width="960" height="600"></svg>
-        <br>
+        <svg width="600" height="500"></svg>
       </div>
-      <div id="pieChart"></div>
+      <!--<div id="pieChart"></div>
       <div id="barChart"></div>  
-      <div id="lineChart"></div>
-
+      <div id="lineChart"></div>-->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">QuadReal TroubleShooter</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Here are the pending tickets from tenants:
+              <table id="tableTickets"> 
+              </table> 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
     </main><!-- /.container -->
     <!-- Modal -->
     
@@ -52,8 +71,9 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
     <script src="js/admin.js"></script>
-    <script src="js/dashboard.js"></script>
+    <!--<script src="js/dashboard.js"></script>-->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
