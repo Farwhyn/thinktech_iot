@@ -33,7 +33,7 @@ iotlights.on('value', function(snapshot) {
         var row = m_table.insertRow(1);
         var problem = row.insertCell(0);
         var solution = row.insertCell(1);
-        if(lightvalue < 30) {
+        if(lightvalue < 40) {
           problem.innerHTML = "Lightbulb loose";
           solution.innerHTML = "Turn off lights and screw bulb tighter";
         }
